@@ -10,10 +10,12 @@ class Tile {
     
     this.container.appendChild(div);
 
-    div.addEventListener("mousedown", () => {
-    var newColor = (this.container.eraserMode) ? "white" : document.querySelector("#pick-color").value;
-    div.style.backgroundColor = newColor;
-    })
+    div.addEventListener("mousemove", (event) => {
+      if (event.buttons === 1) { // Check if the left mouse button is pressed
+        const newColor = (this.container.eraserMode) ? "#ffffff" : this.container.colorInput.value;
+        div.style.backgroundColor = newColor;
+      }
+    });
   }
 }
 
@@ -26,10 +28,12 @@ class Canvas {
     this.eraser = document.querySelector("#eraser");
     this.clear = document.querySelector("#clear");
     
+    this.mousepressed = false;
     this.eraserMode = false;
-    this.container.addEventListener('input', () => { this.eraserMode = !this.eraserMode; });
+    this.eraser.addEventListener('click', () => { this.eraserMode = !(this.eraserMode); });
     this.createTiles();
     this.numTilesInput.addEventListener('input', () => this.createTiles());
+    this.clear.addEventListener('click', () => {this.createTiles();});
   }
 
   createTiles() {
