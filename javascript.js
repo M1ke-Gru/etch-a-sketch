@@ -10,12 +10,19 @@ class Tile {
     
     this.container.appendChild(div);
 
-    div.addEventListener("mousemove", (event) => {
-      if (event.buttons === 1) { // Check if the left mouse button is pressed
-        const newColor = (this.container.eraserMode) ? "#ffffff" : this.container.colorInput.value;
-        div.style.backgroundColor = newColor;
+    div.addEventListener("mousedown", () => {
+      this.container.mousepressed = true;
+    })
+    
+    div.addEventListener("mouseup", () => {
+      this.container.mousepressed = false;
+    })
+    
+    div.addEventListener("mousemove", () => {
+      if (this.container.mousepressed) {
+        div.style.backgroundColor = document.querySelector("#pick-color").value;
       }
-    });
+    })
   }
 }
 
@@ -27,10 +34,16 @@ class Canvas {
     this.colorInput = document.querySelector("#pick-color");
     this.eraser = document.querySelector("#eraser");
     this.clear = document.querySelector("#clear");
+    this.currentColor = this.colorInput.value;
     
     this.mousepressed = false;
-    this.eraserMode = false;
-    this.eraser.addEventListener('click', () => { this.eraserMode = !(this.eraserMode); });
+    this.eraser.addEventListener('click', () => { 
+      if (this.colorInput.value !== "white") {
+        document.querySelector("#pick-color").value = "#ffffff";
+      } else {
+        document.querySelector("#pick-color").value = this.currentColor;
+      }
+    });
     this.createTiles();
     this.numTilesInput.addEventListener('input', () => this.createTiles());
     this.clear.addEventListener('click', () => {this.createTiles();});
