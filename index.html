@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Etch a sketch</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="./styles.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div id="top-panel">
+      <h1>Etch-a-sketch</h1>
+      <div id="actions">
+        <input
+          type="color"
+          name="choosecolor"
+          value="#000000"
+          id="pick-color"
+        />
+        <button type="button" id="eraser">Eraser</button>
+        <button type="button" id="clear">Clear</button>
+        <input
+          type="number"
+          id="numberTiles"
+          value="16"
+          min="1"
+          step="1"
+          class="tilesnum"
+        />
+      </div>
+    </div>
+    <div id="content">
+      <div id="canvas-container"></div>
+    </div>
+    <script src="./javascript.js"></script>
+  </body>
+</html>
