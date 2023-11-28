@@ -11,8 +11,8 @@ class Tile {
     
     this.canvas.appendChild(div);
 
-    document.body.onmousedown = () => (this.canvas.mousepressed = true);
-    document.body.onmouseup = () => (this.canvas.mousepressed = false);
+    document.addEventListener('mousedown', () => (this.canvas.mousepressed = true));
+    document.addEventListener('mouseup', () => (this.canvas.mousepressed = false));
 
     document.querySelector("#eraser").addEventListener('click', () => {
       this.eraserMode = !this.eraserMode;
@@ -38,8 +38,8 @@ class Canvas {
     this.clear = document.querySelector("#clear");
     
     this.createTiles();
-    this.numTilesInput.addEventListener('input', this.createTiles());
-    this.clear.addEventListener('click', this.createTiles());
+    this.numTilesInput.addEventListener('input', () => this.createTiles());
+    this.clear.addEventListener('click', () => this.createTiles());
   }
 
   createTiles() {
