@@ -33,8 +33,6 @@ class Canvas {
     this.canvas = document.querySelector('#canvas');
     
     this.numTilesInput = document.querySelector("#numberTiles");
-    this.colorInput = document.querySelector("#pick-color");
-    this.eraser = document.querySelector("#eraser");
     this.clear = document.querySelector("#clear");
     
     this.createTiles();
