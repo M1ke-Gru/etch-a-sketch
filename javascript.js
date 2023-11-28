@@ -1,6 +1,7 @@
 class Tile {
-  constructor(container, color = "white") {
-    this.container = container;
+  constructor(canvas, color = "white") {
+    this.canvas = canvas;
+    this.eraserMode = false;
 
     const div = document.createElement('div');
 
@@ -8,18 +9,19 @@ class Tile {
     div.style.width = "100%";
     div.style.height = "100%";
     
-    this.container.appendChild(div);
+    this.canvas.appendChild(div);
 
-    div.addEventListener("mousedown", () => {
-      this.container.mousepressed = true;
+    document.body.onmousedown = () => (this.canvas.mousepressed = true);
+    document.body.onmouseup = () => (this.canvas.mousepressed = false);
+
+    document.querySelector("#eraser").addEventListener('click', () => {
+      this.eraserMode = !this.eraserMode;
     })
-    
-    div.addEventListener("mouseup", () => {
-      this.container.mousepressed = false;
-    })
-    
-    div.addEventListener("mousemove", () => {
-      if (this.container.mousepressed) {
+
+    div.addEventListener("mouseover", () => {
+      if (this.canvas.mousepressed && this.eraserMode) {
+        div.style.backgroundColor = "#ffffff";
+      } else if (this.canvas.mousepressed) {
         div.style.backgroundColor = document.querySelector("#pick-color").value;
       }
     })
@@ -28,32 +30,23 @@ class Tile {
 
 class Canvas {
   constructor() {
-    this.container = document.querySelector('#canvas-container');
+    this.canvas = document.querySelector('#canvas');
     
     this.numTilesInput = document.querySelector("#numberTiles");
     this.colorInput = document.querySelector("#pick-color");
     this.eraser = document.querySelector("#eraser");
     this.clear = document.querySelector("#clear");
-    this.currentColor = this.colorInput.value;
     
-    this.mousepressed = false;
-    this.eraser.addEventListener('click', () => { 
-      if (this.colorInput.value !== "white") {
-        document.querySelector("#pick-color").value = "#ffffff";
-      } else {
-        document.querySelector("#pick-color").value = this.currentColor;
-      }
-    });
     this.createTiles();
-    this.numTilesInput.addEventListener('input', () => this.createTiles());
-    this.clear.addEventListener('click', () => {this.createTiles();});
+    this.numTilesInput.addEventListener('input', this.createTiles());
+    this.clear.addEventListener('click', this.createTiles());
   }
 
   createTiles() {
-    this.container.innerHTML = "";
-    this.container.style.gridTemplateColumns = `repeat(${this.numTilesInput.value}, 1fr)`;
+    this.canvas.innerHTML = "";
+    this.canvas.style.gridTemplateColumns = `repeat(${this.numTilesInput.value}, 1fr)`;
     for (let i = 0; i < this.numTilesInput.value ** 2; i++) {
-      const tile = new Tile(this.container);
+      const tile = new Tile(this.canvas);
     }
   }   
 }

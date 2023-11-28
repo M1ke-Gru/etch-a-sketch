@@ -58,7 +58,7 @@ body {
   align-items: center;
 }
 
-#canvas-container {
+#canvas {
   display: grid;
   width: 80vh;
   height: 80vh;
